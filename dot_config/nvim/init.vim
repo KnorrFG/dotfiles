@@ -1,4 +1,4 @@
-" Basic Settings {{{
+" Basic Settings [[[
 let g:python3_host_prog = '/home/felix/.pyenv/versions/neovim/bin/python3'
 let g:loaded_python_provider = 1
 set nocompatible
@@ -52,21 +52,21 @@ hi SpellBad cterm=underline ctermfg=red
 if &shell =~# 'fish$'
 	set shell=/usr/bin/bash
 endif
-" }}}
-" Fold Text Display {{{
+" ]]]
+" Fold Text Display [[[
 set foldtext=MyFoldText()
 function! MyFoldText()
   return getline(v:foldstart)
 endfunction
-" }}}
-" Install Plug if required  {{{
+" ]]]
+" Install Plug if required  [[[
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
 	  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 		  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 		endif
-"}}}
-" Installed Plugins {{{
+"]]]
+" Installed Plugins [[[
 call plug#begin(stdpath('data') . '/plugged')
 Plug 'neovim/nvim-lspconfig'
 Plug 'kien/ctrlp.vim'
@@ -89,13 +89,13 @@ Plug 'mattn/emmet-vim'
 Plug 'nvim-lua/completion-nvim'
 Plug 'HallerPatrick/py_lsp.nvim'
 call plug#end()
-" }}}
-" Plugin Config {{{
+" ]]]
+" Plugin Config [[[
 let g:nerddefaultalign = 'left'
 let g:send_disable_mapping = 1
 let g:user_emmet_install_global = 0
 let g:completion_enable_snippet = 'UltiSnips'
-"  	LSP Server {{{
+"  	LSP Server [[[
 lua << EOF
 lsp_config = require'lspconfig'
 
@@ -141,26 +141,26 @@ for _, lsp in ipairs(servers) do
 end
 
 EOF
-" 	}}}
-"   Ultisnips {{{
+" 	]]]
+"   Ultisnips [[[
 let g:UltiSnipsExpandTrigger="<c-e>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-"}}}
-"   Vimtex options {{{
+"]]]
+"   Vimtex options [[[
 let g:tex_flavor = 'latex'
 let g:vimtex_compiler_method = 'latexrun'
 let g:vimtex_fold_enabled = 1
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_view_forward_search_on_start = 0
 let g:vimtex_compiler_progname = 'nvr'
-"}}}
-"}}}
-" Color scheme {{{
+"]]]
+"]]]
+" Color scheme [[[
 set background=dark
 colorscheme gruvbox
-"}}}
-" MD Functions {{{
+"]]]
+" MD Functions [[[
 function! InsertImgFromCB(name)
     execute "!xclip -sel clip -t image/png -o > " . 
 					\ "/home/felix/Nextcloud/mdn.d/assets/" . a:name
@@ -179,11 +179,11 @@ function! MarkdownOptions()
 	" Make a marked text into a link with a link from the clipboard
 	vmap <localleader>k S]%a(<esc>"*pa)<esc>
 endf
-" }}}
-" Autocommands {{{
+" ]]]
+" Autocommands [[[
 augroup vimrc
 	autocmd!
-	au FileType vim setlocal foldmethod=marker
+	au FileType vim setlocal foldmarker=[[[,]]] foldmethod=marker 
 	au BufNewFile,BufRead *.py,*.hs set
 		\ tabstop=4
 		\ softtabstop=4
@@ -213,12 +213,12 @@ augroup vimrc
 	au Syntax * RainbowParenthesesLoadSquare
 	au Syntax * RainbowParenthesesLoadBraces
 augroup END
-" }}}
-" Keyboard Mappings {{{
+" ]]]
+" Keyboard Mappings [[[
 let mapleader = ' '
 let maplocalleader = ','
-map <leader>ev :e $MYVIMRC<CR>
-map <leader>sv :source $MYVIMRC<CR>
+map <leader>ev :e /home/felix/.local/share/chezmoi/dot_config/nvim/init.vim<CR>
+map <leader>sv :!chezmoi apply<CR>:source $MYVIMRC<CR>
 map <leader>sn :noh<CR>
 map <leader>st :set spell!<CR>
 map <leader>sg :set spelllang=de_20<CR>
@@ -253,4 +253,4 @@ nmap <c-s><c-s> <Plug>SendLine
 nmap <c-s> <Plug>Send
 vmap <c-s> <Plug>Send
 tmap <c-w><c-w> <c-\><c-n><c-w><c-w>
-"}}}
+"]]]
