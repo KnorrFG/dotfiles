@@ -216,7 +216,7 @@ __echo_contents() {
 	cat $1 | sed 's/#.*//g' | sed '/^\s*$/d'
 }
 
-cdg() {
+j() {
    local dest_dir=$(__echo_contents ~/.bash_bookmarks | fzf )
    if [[ $dest_dir != '' ]]; then
       cd "$dest_dir"
