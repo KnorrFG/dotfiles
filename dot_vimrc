@@ -1,0 +1,86 @@
+" Basic Settings [[[
+let g:python3_host_prog = '/home/felix/.pyenv/versions/neovim/bin/python3'
+let g:loaded_python_provider = 1
+set nocompatible
+set t_Co=256
+
+set mouse=a
+set guioptions-=T
+set guioptions-=m
+
+set tabstop=2
+set shiftwidth=2
+set textwidth=79
+set backspace=indent,eol,start
+set pastetoggle=<F2>
+
+set splitbelow
+set splitright
+set hidden
+
+set hlsearch
+set incsearch
+set ignorecase
+set colorcolumn=80
+set foldcolumn=2
+set number relativenumber
+
+set nobackup       "no backup files
+set nowritebackup  "only in case you don't want a backup file while editing
+set noswapfile     "no swap files
+
+" Lightline config
+set laststatus=2
+
+"CtrlP ignore patterns
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+
+"completion related
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
+
+" Avoid showing message extra message when using completion
+set shortmess+=c
+
+syntax on
+filetype plugin indent on
+
+"Highlight spelling errors
+hi SpellBad cterm=underline ctermfg=red
+
+if &shell =~# 'fish$'
+	set shell=/usr/bin/bash
+endif
+" ]]]
+" Fold Text Display [[[
+set foldtext=MyFoldText()
+function! MyFoldText()
+  return getline(v:foldstart)
+endfunction
+" ]]]
+" Keyboard Mappings [[[
+let mapleader = ' '
+let maplocalleader = ','
+map <leader>ev :e /home/felix/.local/share/chezmoi/dot_vimrc<CR>
+map <leader>sv :!chezmoi apply<CR>:source $MYVIMRC<CR>
+map <leader>sn :noh<CR>
+map <leader>st :set spell!<CR>
+map <leader>sg :set spelllang=de_20<CR>
+map <leader>se :set spelllang=en<CR>
+map <leader>sb :set spelllang=de_20,en<CR>
+nnoremap <leader>md :set mouse-=a<CR> 
+nnoremap <leader>me :set mouse+=a<CR>
+
+"Use Tab to toggle folds
+nnoremap <silent> <Tab> @=(foldlevel('.')?'za':"\<Tab>")<CR>
+vnoremap <Tab> zf
+
+"use tab for completion
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+
+imap jj <Esc>
+imap <C-d> <DEL>
+" ]]]
