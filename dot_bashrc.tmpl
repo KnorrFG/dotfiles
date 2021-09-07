@@ -217,7 +217,7 @@ __echo_contents() {
 }
 
 j() {
-   local dest_dir=$(__echo_contents ~/.bash_bookmarks | fzf -q "$@" )
+   local dest_dir=$(__echo_contents ~/.bash_bookmarks | fzf -q "$*" )
    if [[ $dest_dir != '' ]]; then
       cd "$dest_dir"
    fi
