@@ -88,6 +88,7 @@ Plug 'jeetsukumaran/vim-pythonsense'
 Plug 'mattn/emmet-vim'
 Plug 'nvim-lua/completion-nvim'
 Plug 'HallerPatrick/py_lsp.nvim'
+Plug 'rust-lang/rust.vim'
 call plug#end()
 " ]]]
 " Plugin Config [[[
