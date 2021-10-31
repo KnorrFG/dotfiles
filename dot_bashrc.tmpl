@@ -116,7 +116,7 @@ fi
 
 set -o vi
 bind '"jj":vi-movement-mode'
-export VISUAL=nvim
+export VISUAL=vim
 export EDITOR="$VISUAL"
 
 # Disable Ctrl-S for stopping
@@ -179,6 +179,7 @@ alias wdnotes="nvim /mnt/c/Users/knorr/git/winman/devnotes.md"
 export PATH=/mnt/c/user/knorr/bin:$PATH
 export PATH=$WH/bin:$PATH
 export PATH=$WH/scoop/shims:$PATH
+export PATH=$HOME/.cargo/bin:$PATH
 
 w (){
 	$1.exe "${@:2}"

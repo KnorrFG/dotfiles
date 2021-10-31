@@ -130,7 +130,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<localleader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
-local servers = {'nimls', 'pyright'}
+local servers = {'pyright', 'nimls'}
 for _, lsp in ipairs(servers) do
   lsp_config[lsp].setup {
     on_attach = on_attach,
