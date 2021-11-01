@@ -88,7 +88,7 @@ Plug 'jeetsukumaran/vim-pythonsense'
 Plug 'mattn/emmet-vim'
 Plug 'nvim-lua/completion-nvim'
 Plug 'HallerPatrick/py_lsp.nvim'
-Plug 'rust-lang/rust.vim'
+Plug 'simrat39/rust-tools.nvim'
 call plug#end()
 " ]]]
 " Plugin Config [[[
@@ -141,6 +141,7 @@ for _, lsp in ipairs(servers) do
   }
 end
 
+require('rust-tools').setup({server = {on_attach = on_attach}})
 EOF
 " 	]]]
 "   Ultisnips [[[
