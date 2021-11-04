@@ -188,7 +188,7 @@ w (){
 {{- if eq .chezmoi.hostname "LAPTOP-FELIX" }}
 
 #===============================================================================
-# thinkpad specific configuration
+# thinkpad specific configuration (WSL)
 #===============================================================================
 export DISPLAY=$(/sbin/ip route | awk '/default/ { print $3  }')":0"
 
@@ -207,6 +207,14 @@ export PATH=$HOME/.cargo/bin:$PATH
 w (){
 	$1.exe "${@:2}"
 }
+{{- end }}
+
+{{- if eq .chezmoi.hostname "fedora" }}
+
+#===============================================================================
+# thinkpad specific configuration (Fedora)
+#===============================================================================
+alias vim='gvim -v'
 {{- end }}
 #===============================================================================
 # Aliases
