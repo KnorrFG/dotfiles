@@ -175,6 +175,7 @@ alias mount_m='sudo mount -t cifs //vs-grp02.zih.tu-dresden.de/nic_austausch\
 	~/media/m -o uid=felix,credentials=/home/felix/.m_and_p_credentials'
 alias mount_all="mount_n;mount_m;mount_p"
 alias wdnotes="nvim /mnt/c/Users/knorr/git/winman/devnotes.md"
+alias fd=fdfind
 
 export PATH=/mnt/c/user/knorr/bin:$PATH
 export PATH=$WH/bin:$PATH
@@ -203,6 +204,7 @@ alias e.="explorer.exe ."
 export PATH=/mnt/c/user/knorr/bin:$PATH
 export PATH=$WH/bin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
+alias fd=fdfind
 
 w (){
 	$1.exe "${@:2}"
@@ -225,7 +227,6 @@ export PATH=$HOME/.pyenv/shims:$PATH
 #===============================================================================
 alias sai='sudo apt install -y'
 alias sar='sudo apt remove -y'
-alias fd=fdfind
 alias tmux='tmux -2'
 alias ca='chezmoi apply'
 alias bashrc='chezmoi edit ~/.bashrc'
