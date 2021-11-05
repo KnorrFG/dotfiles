@@ -1,3 +1,11 @@
+{{- if eq .chezmoi.hostname "fedora" }}
+{{- end }}
+
+{{- if eq .chezmoi.hostname "rzbl" }}
+#===============================================================================
+# Razor Blade specific conf
+#===============================================================================
 browser_cmd: firefoxw file:///`wslpath -m {}`
 editor_cmd: nvim {}
 save_path: /mnt/c/Users/knorr/Nextcloud/mdn.d
+{{- end }}
