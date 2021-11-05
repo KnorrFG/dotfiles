@@ -1,4 +1,7 @@
 {{- if eq .chezmoi.hostname "fedora" }}
+browser_cmd: firefox {}
+editor_cmd: nvim {}
+save_path: /home/felix/.mdn.d
 {{- end }}
 
 {{- if eq .chezmoi.hostname "rzbl" }}
