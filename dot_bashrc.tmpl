@@ -222,12 +222,14 @@ alias connect-vpn='sudo openfortivpn vpn.neuroloop.de:443/test --username fknorr
 
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.pyenv/shims:$PATH
+export PATH=/opt/mssql-tools/bin:$PATH
+
 
 {{- end }}
 #===============================================================================
 # Aliases
 #===============================================================================
-alias sai='sudo apt install -y'
+lias sai='sudo apt install -y'
 alias sar='sudo apt remove -y'
 alias tmux='tmux -2'
 alias ca='chezmoi apply'
