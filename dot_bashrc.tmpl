@@ -221,7 +221,7 @@ alias mount-n='sudo mount -t cifs -o username=fknorr,domain=NEUROLOOP //10.136.1
 alias connect-vpn='sudo openfortivpn vpn.neuroloop.de:443/test --username fknorr@neuroloop.de --trusted-cert 4c5a778703694d71ca6987df5b4484e3c0888815bd584c85d48e9efaa2ffc505'
 
 export PATH=$HOME/.local/bin:$PATH
-export PATH=$HOME/.pyenv/shims:$PATH
+#export PATH=$HOME/.pyenv/shims:$PATH
 export PATH=/opt/mssql-tools/bin:$PATH
 
 
@@ -237,13 +237,8 @@ alias bashrc='chezmoi edit ~/.bashrc'
 alias nvimrc='chezmoi edit ~/.config/nvim/init.vim'
 alias vimrc='chezmoi edit ~/.vimrc'
 alias sbrc="source ~/.bashrc"
-alias frank="ssh felix@frankenstein"
-alias kon="mdn -c ~/.komdnrc"
-alias kon-nnpc="kon new -t ~/Documents/templates/npc.md"
 alias clip-image-to-file="xclip -selection clipboard -t image/png -o >"
 alias rgrep="grep -iInr"
-
-export PATH="/home/felix/.pyenv/bin:$PATH"
 
 export PYTHONBREAKPOINT='ipdb.set_trace'
 
