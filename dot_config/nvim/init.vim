@@ -70,8 +70,6 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
 call plug#begin(stdpath('data') . '/plugged')
 Plug 'neovim/nvim-lspconfig'
 Plug 'kien/ctrlp.vim'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
 Plug 'flazz/vim-colorschemes'
 Plug 'itchyny/lightline.vim'
 Plug 'majutsushi/tagbar'
@@ -86,24 +84,26 @@ Plug 'plasticboy/vim-markdown'
 Plug 'mtikekar/nvim-send-to-term'
 Plug 'jeetsukumaran/vim-pythonsense'
 Plug 'mattn/emmet-vim'
-Plug 'nvim-lua/completion-nvim'
 Plug 'HallerPatrick/py_lsp.nvim'
 Plug 'simrat39/rust-tools.nvim'
+Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
+Plug 'ms-jpq/coq.thirdparty', {'branch': '3p'}
 call plug#end()
 " ]]]
 " Plugin Config [[[
 let g:nerddefaultalign = 'left'
 let g:send_disable_mapping = 1
 let g:user_emmet_install_global = 0
-let g:completion_enable_snippet = 'UltiSnips'
+let g:coq_settings = { 'auto_start': v:true }
 "  	LSP Server [[[
 lua << EOF
-lsp_config = require'lspconfig'
+lsp_config = require 'lspconfig'
+coq = require "coq"
 
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-  require'completion'.on_attach()
 
   -- Enable completion triggered by <c-x><c-o>
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -133,12 +133,12 @@ end
 
 local servers = {'pyright', 'nimls'}
 for _, lsp in ipairs(servers) do
-  lsp_config[lsp].setup {
+  lsp_config[lsp].setup(coq.lsp_ensure_capabilities{
     on_attach = on_attach,
     flags = {
       debounce_text_changes = 150,
     }
-  }
+  })
 end
 
 require('rust-tools').setup({server = {on_attach = on_attach}})
@@ -234,8 +234,8 @@ nnoremap <silent> <Tab> @=(foldlevel('.')?'za':"\<Tab>")<CR>
 vnoremap <Tab> zf
 
 "use tab for completion
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+"inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+"inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 
 imap jj <Esc>
