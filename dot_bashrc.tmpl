@@ -217,10 +217,9 @@ w (){
 # thinkpad specific configuration (Ubuntu)
 #===============================================================================
 alias mount-n='sudo mount -t cifs -o username=fknorr,domain=NEUROLOOP //10.136.17.62/neu-dat2$ /mnt/n'
-
 alias connect-vpn='sudo openfortivpn vpn.neuroloop.de:443/test --username fknorr@neuroloop.de --trusted-cert 4c5a778703694d71ca6987df5b4484e3c0888815bd584c85d48e9efaa2ffc505'
-
 alias ranger='source ranger'
+alias pyenv-shared-install='env PYTHON_CONFIGURE_OPTS='--enable-shared' pyenv install'
 
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.pyenv/shims:$PATH
@@ -234,20 +233,7 @@ make-compile-commands(){
 	ln -s Debug/compile_commands.json .
 }
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-# __conda_setup="$('/home/felix/programs/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-# if [ $? -eq 0 ]; then
-#     eval "$__conda_setup"
-# else
-#     if [ -f "/home/felix/programs/miniconda3/etc/profile.d/conda.sh" ]; then
-#         . "/home/felix/programs/miniconda3/etc/profile.d/conda.sh"
-#     else
-#         export PATH="/home/felix/programs/miniconda3/bin:$PATH"
-#     fi
-# fi
-# unset __conda_setup
-# <<< conda initialize <<<
+
 {{- end }}
 #===============================================================================
 # Aliases
