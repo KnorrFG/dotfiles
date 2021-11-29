@@ -8,8 +8,6 @@ set mouse=a
 set guioptions-=T
 set guioptions-=m
 
-set tabstop=2
-set shiftwidth=2
 set textwidth=79
 set backspace=indent,eol,start
 set pastetoggle=<F2>
@@ -186,7 +184,7 @@ endf
 augroup vimrc
 	autocmd!
 	au FileType vim setlocal foldmarker=[[[,]]] foldmethod=marker 
-	au BufNewFile,BufRead *.py,*.hs set
+	au filetype python,haskel,c set
 		\ tabstop=4
 		\ softtabstop=4
 		\ shiftwidth=4
