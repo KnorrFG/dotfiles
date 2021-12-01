@@ -233,6 +233,9 @@ make-compile-commands(){
 	ln -s Debug/compile_commands.json .
 }
 
+zdo(){
+	zathura "$@" & disown
+}
 
 {{- end }}
 #===============================================================================

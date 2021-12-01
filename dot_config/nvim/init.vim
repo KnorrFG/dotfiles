@@ -180,6 +180,11 @@ function! MarkdownOptions()
 	vmap <localleader>k S]%a(<esc>"*pa)<esc>
 endf
 " ]]]
+" C Config [[[
+function! COptions()
+    nmap ,m :make 
+endf
+" ]]]
 " Autocommands [[[
 augroup vimrc
 	autocmd!
@@ -207,6 +212,7 @@ augroup vimrc
 	au filetype python nmap <localleader>rsi :w<CR> :%! isort -d %<CR>
 	au filetype markdown call MarkdownOptions()
 	au filetype html,css EmmetInstall
+    au filetype c call COptions()
 
 	au VimEnter * RainbowParenthesesToggle
 	au Syntax * RainbowParenthesesLoadRound
