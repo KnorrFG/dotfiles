@@ -182,7 +182,8 @@ endf
 " ]]]
 " C Config [[[
 function! COptions()
-    nmap ,m :make 
+    nmap ,mm :make<CR>
+    nmap ,mr :make run<CR>
 endf
 " ]]]
 " Autocommands [[[
