@@ -1,0 +1,48 @@
+env:
+  # This value is used to set the `$TERM` environment variable for
+  # each instance of Alacritty. If it is not present, alacritty will
+  # check the local terminfo database and use `alacritty` if it is
+  # available, otherwise `xterm-256color` is used.
+  TERM: xterm-256color
+
+window:
+  # Spread additional padding evenly around the terminal content.
+  padding:
+    x: 2
+    y: 2
+  # Remove buttons
+  decorations: "none"
+  # Open in full screen 
+  #startup_mode: SimpleFullscreen
+  # Dimensions if not SimpleFullscreen
+  dimensions:
+    columns: 90
+    lines: 38
+# Make background slightly transparent
+  opacity: 0.92
+  dynamic_title: true
+
+cursor:
+  # Block Underline or Beam
+  style: Block
+
+
+selection:
+  # This string contains all characters that are used as separators for
+  # "semantic words" in Alacritty.
+  semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
+
+  # When true, selected text will be copied to the primary clipboard
+  save_to_clipboard: true
+
+# Login shell with arguments
+shell:
+  program: /bin/bash
+  args:
+    - --login
+
+# Startup directory, unset or None for home directory
+working_directory: None
+
+key_bindings:
+  - { key: Return,   mods: Control|Shift, action: SpawnNewInstance }
