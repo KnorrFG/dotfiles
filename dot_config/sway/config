@@ -20,12 +20,19 @@ set $term alacritty
 # on the original workspace that the command was run on.
 # set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
-set $menu 'rofi -modi run, drun, window  -show drun'
+ set $menu 'rofi -modi run, drun, window  -show drun'
+
+focus_follows_mouse no
+workspace_auto_back_and_forth yes
 
 ### Output configuration
 #
+set $wallpaperPath /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png 
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg $wallpaperPath fill
+
+output eDP-1 pos 0 0 
+output DP-1 pos 1920 0
 #
 # Example configuration:
 #
@@ -40,6 +47,7 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 exec swayidle -w \
          timeout 300 'swaylock -f -c 000000' \
          timeout 310 'swaymsg "output * dpms off"' \
+	 timeout 626 'systemctl suspend ' \
               resume 'swaymsg "output * dpms on"' \
          before-sleep 'swaylock -f -c 000000'
 #
@@ -197,10 +205,24 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-mode "system" {
-		bindsym e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
-		# lock
-		bindsym l bindsym $mod+Pause exec $swaylock -i `wallpaper` --scaling fill
+set $systemMenu Logout (e) | Lock (l) | Settings (s) | Power Off (o) | Reboot (r) | Hybernate (h)
+
+mode "$systemMenu" {
+    bindsym e exec swaymsg exit
+    # lock
+    bindsym l exec loginctl lock-session, mode "default"
+
+    # settings
+    bindsym s exec gnome-control-center, mode "default"
+
+    # shutdown
+    bindsym o exec poweroff
+
+    # restart
+    bindsym r exec reboot
+
+    # hybernate
+    bindsym h exec systemctl suspend, mode "normal"
 
     # Return to default mode
     bindsym Return mode "default"
@@ -208,7 +230,7 @@ mode "system" {
 }
 
 # Exit sway (logs you out of your Wayland session)
-bindsym $mod+Shift+e mode "system"
+bindsym $mod+Shift+e mode "$systemMenu"
 
 #
 # Move between monitors
@@ -221,6 +243,9 @@ bindsym $mod+period move workspace to output left
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 
+# brightness
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym XF86MonBrightnessUp exec brightnessctl set +5%
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
