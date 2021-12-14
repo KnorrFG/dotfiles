@@ -216,7 +216,7 @@ set $systemMenu Logout (e) | Lock (l) | Settings (s) | Power Off (o) | Reboot (r
 mode "$systemMenu" {
     bindsym e exec swaymsg exit
     # lock
-    bindsym l exec loginctl lock-session, mode "default"
+    bindsym l exec swaylock -f -c 000000, mode "default"
 
     # settings
     bindsym s exec gnome-control-center, mode "default"
