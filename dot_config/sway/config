@@ -31,8 +31,12 @@ set $wallpaperPath /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 output * bg $wallpaperPath fill
 
-output eDP-1 pos 0 0 
-output DP-1 pos 1920 0
+# Display Configs:
+#output eDP-1 pos 0 0 
+#output DP-1 pos 1920 0
+# Arbeit Andrea
+
+#
 #
 # Example configuration:
 #
