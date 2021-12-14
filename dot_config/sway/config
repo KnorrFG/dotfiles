@@ -35,7 +35,9 @@ output * bg $wallpaperPath fill
 #output eDP-1 pos 0 0 
 #output DP-1 pos 1920 0
 # Arbeit Andrea
-
+output eDP-1 pos 0 0 
+output DP-4 pos 1920 0
+output DP-7 pos 3840 0
 #
 #
 # Example configuration:
