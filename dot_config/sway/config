@@ -35,11 +35,15 @@ output * bg $wallpaperPath fill
 #output eDP-1 pos 0 0 
 #output DP-1 pos 1920 0
 # Arbeit Andrea
-output eDP-1 pos 0 0 
-output DP-4 pos 1920 0
-output DP-7 pos 3840 0
-#
-#
+# output eDP-1 pos 0 0 
+# output DP-4 pos 1920 0
+# output DP-7 pos 3840 0
+
+# Buero Julia
+output DP-6 pos 0 0 
+output DP-5 pos 1920 0
+output eDP-1 pos 3840 0
+
 # Example configuration:
 #
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
