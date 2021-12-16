@@ -247,7 +247,7 @@ bindsym $mod+Shift+e mode "$systemMenu"
 #
 
 bindsym $mod+comma move workspace to output left
-bindsym $mod+period move workspace to output left
+bindsym $mod+period move workspace to output right
 
 # Voume
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
