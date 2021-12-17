@@ -54,12 +54,12 @@ output eDP-1 pos 3840 0
 #
 # Example configuration:
 #
-exec swayidle -w \
-         timeout 300 'swaylock -f -c 000000' \
-         timeout 310 'swaymsg "output * dpms off"' \
-	 timeout 626 'systemctl suspend ' \
-              resume 'swaymsg "output * dpms on"' \
-         before-sleep 'swaylock -f -c 000000'
+# exec swayidle -w \
+#          timeout 300 'swaylock -f -c 000000' \
+#          timeout 310 'swaymsg "output * dpms off"' \
+# 	 timeout 626 'systemctl suspend ' \
+#               resume 'swaymsg "output * dpms on"' \
+#          before-sleep 'swaylock -f -c 000000'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 10 seconds, and turn your screens back on when
