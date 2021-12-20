@@ -133,7 +133,7 @@ endf
 augroup vimrc
 	autocmd!
 	au FileType vim setlocal foldmarker=[[[,]]] foldmethod=marker 
-	au filetype python,haskel,c set
+	au filetype python,haskel,c,bash set
 		\ tabstop=4
 		\ softtabstop=4
 		\ shiftwidth=4
