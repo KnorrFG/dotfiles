@@ -1,0 +1,160 @@
+#! /usr/bin/bash
+
+set -eu
+
+full_install=0
+apt_install=0
+pyenv_install=0
+chezmoi_install=0
+flatpack_install=0
+sway_install=0
+nvim_install=0
+
+print_help() {
+cat << EOF
+
+Installs my typical setup. Supported Arguments:
+    -f | --full: install everything.
+    -a | --apt: install all apt-depending programs
+    -p | --pyenv
+
+EOF
+}
+
+create-sway-exec-files() {
+sudo cat > /usr/bin/my-sway << EOF
+#! /usr/bin/sh
+
+export PATH=/home/felix/programs/fzf/bin:$PATH
+exec sway
+EOF
+
+sudo chmod a+x /usr/bin/my-sway
+
+sudo cat > /usr/share/wayland-sessions/my-sway.desktop << EOF
+[Desktop Entry]
+Name=My Sway
+Comment=An i3-compatible Wayland compositor
+Exec=my-sway
+Type=Application
+EOF
+}
+
+if [ $# = 0 ]; then
+    print_help
+    exit 0
+fi
+
+while [[ $# -gt 0 ]]; do
+    val="$1"
+
+	case $val in
+		-f|--full)
+			full_install=1
+			shift 
+			;;
+		-a|--apt)
+			apt_install=1
+			shift 
+			;;
+        -p|--pyenv)
+            pyenv_install=1
+            shift
+            ;;
+        -c|--chezmoi)
+            chezmoi_install=1
+            shift
+            ;;
+        -s|--sway)
+            sway_install=1
+            shift
+            ;;
+        -n|--nvim)
+            nvim_install=1
+            shift
+            ;;
+        # option value
+		# --searchpath)
+		# 	SEARCHPATH="$2"
+		# 	shift # past argument
+		# 	shift
+		# 	;;
+		*)    # unknown option
+			echo Unknown argument.
+			print_help
+			exit 1
+			;;
+	esac
+done
+
+if [[ $full_install = 1 ]]; then
+    echo Full install, running apt update ...
+    sudo apt update
+fi
+
+if [[ $full_install = 1 || $apt_install = 1 ]]; then
+    echo Running apt install ...
+    sudo apt install -y \
+        ripgrep ranger curl fd-find apt-file gimp zathura git \
+        firefox thunderbird
+fi
+
+
+if [[ $full_install = 1 || $pyenv_install = 1 ]]; then
+    echo Running pyenv install ...
+
+    echo installing dependencies ...
+    sudo apt install -y git make build-essential libssl-dev zlib1g-dev \
+        libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+        libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev \
+        libffi-dev liblzma-dev
+
+    echo installing pyenv ...
+    git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+    cd ~/.pyenv && src/configure && make -C src
+    cd -
+
+    echo installing pyenv-virtualenv ...
+    git clone https://github.com/pyenv/pyenv-virtualenv.git \
+        $(~/.pyenv/bin/pyenv root)/plugins/pyenv-virtualenv
+fi
+
+if [[ $chezmoi_install = 1 ]]; then
+    # not in full install because usually I need chezmoi to get this file
+
+    echo Installing Chezmoi ...
+    sh -c "$(wget -qO- git.io/chezmoi)" -- init \
+        --apply ssh://git@github.com/KnorrFG/dotfiles
+fi
+
+if [[ $full_install = 1 || $flatpack_install = 1 ]]; then
+    echo Installing Flatpack and programs that are installed via it ...
+
+    sudo apt install flatpak
+    flatpak remote-add --if-not-exists flathub \
+        https://flathub.org/repo/flathub.flatpakrepo
+
+    echo Installing Telegram ...
+    flatpak install org.telegram.desktop
+
+    echo Installing Signal ...
+    flatpak install org.signal.Signal
+fi
+
+
+if [[ $full_install = 1 || $sway_install = 1 ]]; then
+    echo Installing Sway and friends ...
+
+    sudo apt install sway sway-backgrounds swaybg swayidle swaylock alacritty \
+        rofi grim slurp wl-copy waybar
+
+    create-sway-exec-files
+fi
+
+if [[ $full_install = 1 ]]; then
+cat << EOF
+Dont forget neovim. Too hard by script. Go to:
+https://github.com/neovim/neovim/releases, look for the right release
+and run nvim-install <link>
+EOF
+fi

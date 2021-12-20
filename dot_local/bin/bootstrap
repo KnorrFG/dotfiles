@@ -1,4 +1,0 @@
-#! /usr/bin/bash
-
-sudo apt install -y \
-	ripgrep ranger curl fd-find apt-file gimp zathura
