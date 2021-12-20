@@ -242,6 +242,8 @@ mode "$systemMenu" {
 # Exit sway (logs you out of your Wayland session)
 bindsym $mod+Shift+e mode "$systemMenu"
 
+# Screenshots
+bindsym $mod+Shift+s exec grim -g "$(slurp -d)" - | wl-copy -t image/png
 #
 # Move between monitors
 #
