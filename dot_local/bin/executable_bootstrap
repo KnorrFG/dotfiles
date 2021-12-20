@@ -6,18 +6,24 @@ full_install=0
 apt_install=0
 pyenv_install=0
 chezmoi_install=0
-flatpack_install=0
+flatpak_install=0
 sway_install=0
-nvim_install=0
+fzf_install=0
+
+pyenv_dir=~/programs/pyenv
+fzf_dir=~/programs/fzf
 
 print_help() {
 cat << EOF
 
 Installs my typical setup. Supported Arguments:
-    -f | --full: install everything.
-    -a | --apt: install all apt-depending programs
-    -p | --pyenv
-
+     --full: install everything.
+     --apt: install all apt-depending programs
+     --pyenv
+     --flatpak: will install flatpak, signal and telegram
+     --chezmoi
+     --sway
+     --fzf
 EOF
 }
 
@@ -49,28 +55,28 @@ while [[ $# -gt 0 ]]; do
     val="$1"
 
 	case $val in
-		-f|--full)
+		--full)
 			full_install=1
 			shift 
 			;;
-		-a|--apt)
+		--apt)
 			apt_install=1
 			shift 
 			;;
-        -p|--pyenv)
+        --pyenv)
             pyenv_install=1
             shift
             ;;
-        -c|--chezmoi)
+        --chezmoi)
             chezmoi_install=1
             shift
             ;;
-        -s|--sway)
-            sway_install=1
+        --flatpak)
+            flatpak_install=1
             shift
             ;;
-        -n|--nvim)
-            nvim_install=1
+        --sway)
+            sway_install=1
             shift
             ;;
         # option value
@@ -110,13 +116,14 @@ if [[ $full_install = 1 || $pyenv_install = 1 ]]; then
         libffi-dev liblzma-dev
 
     echo installing pyenv ...
-    git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-    cd ~/.pyenv && src/configure && make -C src
+    mkdir -p ~/programs
+    git clone https://github.com/pyenv/pyenv.git $pyenv_dir
+    cd $pyenv_dir && src/configure && make -C src
     cd -
 
     echo installing pyenv-virtualenv ...
     git clone https://github.com/pyenv/pyenv-virtualenv.git \
-        $(~/.pyenv/bin/pyenv root)/plugins/pyenv-virtualenv
+        $($pyenv_dir/bin/pyenv root)/plugins/pyenv-virtualenv
 fi
 
 if [[ $chezmoi_install = 1 ]]; then
@@ -127,7 +134,7 @@ if [[ $chezmoi_install = 1 ]]; then
         --apply ssh://git@github.com/KnorrFG/dotfiles
 fi
 
-if [[ $full_install = 1 || $flatpack_install = 1 ]]; then
+if [[ $full_install = 1 || $flatpak_install = 1 ]]; then
     echo Installing Flatpack and programs that are installed via it ...
 
     sudo apt install flatpak
@@ -151,10 +158,18 @@ if [[ $full_install = 1 || $sway_install = 1 ]]; then
     create-sway-exec-files
 fi
 
+if [[ $full_install = 1 || $fzf_install = 1 ]]; then
+    echo Installing FZF ...
+    git clone --depth 1 https://github.com/junegunn/fzf.git $fzf_dir
+    $fzf_dir/install
+fi
+
 if [[ $full_install = 1 ]]; then
 cat << EOF
 Dont forget neovim. Too hard by script. Go to:
 https://github.com/neovim/neovim/releases, look for the right release
-and run nvim-install <link>
+(an appimage version) and run nvim-install <link>
+
+Also remember to install a python version
 EOF
 fi
