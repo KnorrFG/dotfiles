@@ -9,6 +9,8 @@ chezmoi_install=0
 flatpak_install=0
 sway_install=0
 fzf_install=0
+nvim_install=0
+duf_install=0
 
 pyenv_dir=~/programs/pyenv
 fzf_dir=~/programs/fzf
@@ -24,6 +26,8 @@ Installs my typical setup. Supported Arguments:
      --chezmoi
      --sway
      --fzf
+     --nvim
+     --duf
 EOF
 }
 
@@ -31,7 +35,7 @@ create-sway-exec-files() {
 sudo cat > /usr/bin/my-sway << EOF
 #! /usr/bin/sh
 
-export PATH=/home/felix/programs/fzf/bin:$PATH
+export PATH=\$HOME/programs/fzf/bin:\$PATH
 exec sway
 EOF
 
@@ -44,6 +48,28 @@ Comment=An i3-compatible Wayland compositor
 Exec=my-sway
 Type=Application
 EOF
+}
+
+get_github_latest_release_link() {
+    repo_url=$1
+    url_format_str=$2
+    python_proc=$(cat << EOF
+import re
+import sys
+
+curl_out = sys.stdin.read()
+#print(curl_out)
+match = re.match(r'<html><body>You are being <a href="(.*?)/releases/tag/([^"]+)">redirected</a>.</body></html>', curl_out)
+if match:
+    repo_url = match.group(1)
+    tag = match.group(2)
+    print(f"{repo_url}/releases/download/{tag}/$url_format_str")
+EOF
+)
+    
+    latest_release_url=${repo_url}/releases/latest
+    curl $latest_release_url 2>/dev/null | \
+        python3 <(echo -e "$python_proc")
 }
 
 if [ $# = 0 ]; then
@@ -79,6 +105,14 @@ while [[ $# -gt 0 ]]; do
             sway_install=1
             shift
             ;;
+        --nvim)
+            nvim_install=1
+            shift
+            ;;
+				--duf)
+					  duf_install=1
+						shift
+						;;
         # option value
 		# --searchpath)
 		# 	SEARCHPATH="$2"
@@ -102,7 +136,7 @@ if [[ $full_install = 1 || $apt_install = 1 ]]; then
     echo Running apt install ...
     sudo apt install -y \
         ripgrep ranger curl fd-find apt-file gimp zathura git \
-        firefox thunderbird
+        firefox thunderbird ncdu
 fi
 
 
@@ -164,12 +198,34 @@ if [[ $full_install = 1 || $fzf_install = 1 ]]; then
     $fzf_dir/install
 fi
 
+if [[ $full_install = 1 || $nvim_install = 1 ]]; then
+		echo Installing nvim ...
+
+    dl_link=$(get_github_latest_release_link https://github.com/neovim/neovim \
+        'nvim.appimage')
+		if [[ "$dl_link" = "" ]]; then
+			echo "couldn't get nvim dl link"
+		else
+			echo downloading nvim from $dl_link
+			path=~/.local/bin/nvim
+			wget -O $path $dl_link
+			chmod u+x $path
+		fi
+fi
+
+if [[ $full_install = 1 || $duf_install = 1 ]]; then
+	echo Installing duf ...
+	dl_link=$(get_github_latest_release_link https://github.com/muesli/duf \
+		'duf_{tag[1:]}_linux_amd64.deb')
+	echo downloading duf from $dl_link
+	deb_path=~/Downloads/${dl_link##*/}
+	wget -O $deb_path $dl_link
+	sudo apt install -y $deb_path
+fi
+
 if [[ $full_install = 1 ]]; then
 cat << EOF
-Dont forget neovim. Too hard by script. Go to:
-https://github.com/neovim/neovim/releases, look for the right release
-(an appimage version) and run nvim-install <link>
-
-Also remember to install a python version
+Everything finished successfully.
+Remember to install a python version
 EOF
 fi
