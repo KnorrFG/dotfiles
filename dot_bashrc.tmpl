@@ -218,8 +218,6 @@ w (){
 #===============================================================================
 alias mount-n='sudo mount -t cifs -o username=fknorr,domain=NEUROLOOP //10.136.17.62/neu-dat2$ /mnt/n'
 alias connect-vpn='sudo openfortivpn vpn.neuroloop.de:443/test --username fknorr@neuroloop.de --trusted-cert 4c5a778703694d71ca6987df5b4484e3c0888815bd584c85d48e9efaa2ffc505'
-alias ranger='source ranger'
-alias pyenv-shared-install='env PYTHON_CONFIGURE_OPTS='--enable-shared' pyenv install'
 
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/programs/pyenv/shims:$PATH
@@ -251,8 +249,10 @@ alias nvimrc='chezmoi edit ~/.config/nvim/init.vim'
 alias swayrc='chezmoi edit ~/.config/sway/config'
 alias vimrc='chezmoi edit ~/.vimrc'
 alias sbrc="source ~/.bashrc"
-alias clip-image-to-file="xclip -selection clipboard -t image/png -o >"
-alias rgrep="grep -iInr"
+# Its for X, I use wayloand now, but in case I switch back, I keep it
+# alias clip-image-to-file="xclip -selection clipboard -t image/png -o >"
+alias ranger='source ranger'
+alias pyenv-shared-install='env PYTHON_CONFIGURE_OPTS='--enable-shared' pyenv install'
 
 export PYTHONBREAKPOINT='ipdb.set_trace'
 
