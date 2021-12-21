@@ -1,5 +1,0 @@
-#! /usr/bin/bash
-
-path=~/.local/bin/nvim
-wget -O $path $1
-chmod u+x $path
