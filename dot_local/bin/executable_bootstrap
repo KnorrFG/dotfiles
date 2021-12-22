@@ -1,8 +1,7 @@
 #! /usr/bin/bash
 
-set -eu
+set -eux
 
-full_install=0
 apt_install=0
 pyenv_install=0
 chezmoi_install=0
@@ -11,15 +10,19 @@ sway_install=0
 fzf_install=0
 nvim_install=0
 duf_install=0
+fvpn_install=0
+teams_install=0
+rust_install=0
+bundled_install=0
 
-pyenv_dir=~/programs/pyenv
 fzf_dir=~/programs/fzf
 
 print_help() {
 cat << EOF
 
 Installs my typical setup. Supported Arguments:
-     --full: install everything.
+     --base: everything I use in my free time
+     --work: base + software I only need for work
      --apt: install all apt-depending programs
      --pyenv
      --flatpak: will install flatpak, signal and telegram
@@ -28,6 +31,9 @@ Installs my typical setup. Supported Arguments:
      --fzf
      --nvim
      --duf
+     --fortivpn
+     --teams
+     --rust
 EOF
 }
 
@@ -72,6 +78,16 @@ EOF
         python3 <(echo -e "$python_proc")
 }
 
+set-base-install () {
+    apt_install=1
+    pyenv_install=1
+    flatpak=1
+    sway_install=1
+    nvim_install=1
+    duf_install=1
+    bundled_install=1
+}
+
 if [ $# = 0 ]; then
     print_help
     exit 0
@@ -81,10 +97,6 @@ while [[ $# -gt 0 ]]; do
     val="$1"
 
 	case $val in
-		--full)
-			full_install=1
-			shift 
-			;;
 		--apt)
 			apt_install=1
 			shift 
@@ -105,20 +117,47 @@ while [[ $# -gt 0 ]]; do
             sway_install=1
             shift
             ;;
+        --fzf)
+            fzf_install=1
+            shift
+            ;;
         --nvim)
             nvim_install=1
             shift
             ;;
-				--duf)
-					  duf_install=1
-						shift
-						;;
+        --duf)
+            duf_install=1
+            shift
+            ;;
+        --fortivpn)
+            fvpn_install=1
+            shift
+            ;;
+        --teams)
+            teams_install=1
+            shift
+            ;;
+        --rust)
+            rust_install=1
+            shift
+            ;;
         # option value
 		# --searchpath)
 		# 	SEARCHPATH="$2"
 		# 	shift # past argument
 		# 	shift
 		# 	;;
+		--base)
+            set-base-install
+			shift 
+			;;
+        --work)
+            set-base-install
+            fvpn_install=1
+            teams_install=1
+            rust_install=1
+            shift
+            ;;
 		*)    # unknown option
 			echo Unknown argument.
 			print_help
@@ -127,20 +166,20 @@ while [[ $# -gt 0 ]]; do
 	esac
 done
 
-if [[ $full_install = 1 ]]; then
+if [[ $bundled_install = 1 ]]; then
     echo Full install, running apt update ...
     sudo apt update
 fi
 
-if [[ $full_install = 1 || $apt_install = 1 ]]; then
+if [[ $apt_install = 1 ]]; then
     echo Running apt install ...
     sudo apt install -y \
         ripgrep ranger curl fd-find apt-file gimp zathura git \
-        firefox thunderbird ncdu
+        firefox thunderbird ncdu cifs-utils software-properties-common
 fi
 
 
-if [[ $full_install = 1 || $pyenv_install = 1 ]]; then
+if [[ $pyenv_install = 1 ]]; then
     echo Running pyenv install ...
 
     echo installing dependencies ...
@@ -150,14 +189,13 @@ if [[ $full_install = 1 || $pyenv_install = 1 ]]; then
         libffi-dev liblzma-dev
 
     echo installing pyenv ...
-    mkdir -p ~/programs
-    git clone https://github.com/pyenv/pyenv.git $pyenv_dir
-    cd $pyenv_dir && src/configure && make -C src
+    git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+    cd ~/.pyenv && src/configure && make -C src
     cd -
 
     echo installing pyenv-virtualenv ...
     git clone https://github.com/pyenv/pyenv-virtualenv.git \
-        $($pyenv_dir/bin/pyenv root)/plugins/pyenv-virtualenv
+        $(~/.pyenv/bin/pyenv root)/plugins/pyenv-virtualenv
 fi
 
 if [[ $chezmoi_install = 1 ]]; then
@@ -168,7 +206,7 @@ if [[ $chezmoi_install = 1 ]]; then
         --apply ssh://git@github.com/KnorrFG/dotfiles
 fi
 
-if [[ $full_install = 1 || $flatpak_install = 1 ]]; then
+if [[ $flatpak_install = 1 ]]; then
     echo Installing Flatpack and programs that are installed via it ...
 
     sudo apt install flatpak
@@ -183,7 +221,7 @@ if [[ $full_install = 1 || $flatpak_install = 1 ]]; then
 fi
 
 
-if [[ $full_install = 1 || $sway_install = 1 ]]; then
+if [[ $sway_install = 1 ]]; then
     echo Installing Sway and friends ...
 
     sudo apt install sway sway-backgrounds swaybg swayidle swaylock alacritty \
@@ -192,13 +230,14 @@ if [[ $full_install = 1 || $sway_install = 1 ]]; then
     create-sway-exec-files
 fi
 
-if [[ $full_install = 1 || $fzf_install = 1 ]]; then
+if [[ $fzf_install = 1 ]]; then
     echo Installing FZF ...
+    mkdir -p ~/programs
     git clone --depth 1 https://github.com/junegunn/fzf.git $fzf_dir
     $fzf_dir/install
 fi
 
-if [[ $full_install = 1 || $nvim_install = 1 ]]; then
+if [[ $nvim_install = 1 ]]; then
 		echo Installing nvim ...
 
     dl_link=$(get_github_latest_release_link https://github.com/neovim/neovim \
@@ -213,7 +252,7 @@ if [[ $full_install = 1 || $nvim_install = 1 ]]; then
 		fi
 fi
 
-if [[ $full_install = 1 || $duf_install = 1 ]]; then
+if [[ $duf_install = 1 ]]; then
 	echo Installing duf ...
 	dl_link=$(get_github_latest_release_link https://github.com/muesli/duf \
 		'duf_{tag[1:]}_linux_amd64.deb')
@@ -223,7 +262,26 @@ if [[ $full_install = 1 || $duf_install = 1 ]]; then
 	sudo apt install -y $deb_path
 fi
 
-if [[ $full_install = 1 ]]; then
+if [[ $fvpn_install = 1 ]]; then
+    echo Installing FortiVPN ...
+    sudo apt install -y openfortivpn
+fi
+
+if [[ $teams_install = 1 ]]; then
+    echo Installing MS Teams ...
+    wget -q -O "-" https://packages.microsoft.com/keys/microsoft.asc | \
+        sudo apt-key add - 
+    sudo add-apt-repository \
+        'deb https://packages.microsoft.com/repos/ms-teams stable main'
+    sudo apt update
+    sudo apt install -y teams
+fi
+
+if [[ $rust_install = 1 ]]; then
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+fi
+
+if [[ $bundled_install = 1 ]]; then
 cat << EOF
 Everything finished successfully.
 Remember to install a python version

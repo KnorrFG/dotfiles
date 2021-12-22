@@ -62,7 +62,7 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
 "]]]
 " Installed Plugins [[[
 call plug#begin(stdpath('data') . '/plugged')
-Plug 'kien/ctrlp.vim'
+"Plug 'kien/ctrlp.vim'
 Plug 'flazz/vim-colorschemes'
 Plug 'itchyny/lightline.vim'
 Plug 'majutsushi/tagbar'
@@ -79,6 +79,8 @@ Plug 'jeetsukumaran/vim-pythonsense'
 Plug 'mattn/emmet-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'Maxattax97/coc-ccls'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 call plug#end()
 " ]]]
 " Plugin Config [[[
@@ -194,9 +196,10 @@ imap <C-d> <DEL>
 
 "Plugin mappings
 nmap <leader>tb :TagbarOpenAutoClose<CR>
-nmap <leader>ff :CtrlP<CR>
-nmap <leader>bb :CtrlPBuffer<CR>
-nmap <leader>fr :CtrlPMRUFiles<CR>
+nmap <leader>ff :Files<CR>
+nmap <leader>fb :Buffers<CR>
+nmap <leader>fr :History<CR>
+nmap <leader>fl :Lines<CR>
 map <leader>tc <plug>NERDCommenterToggle
 imap <silent> <c-p> <Plug>(completion_trigger)
 
