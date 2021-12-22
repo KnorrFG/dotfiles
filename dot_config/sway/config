@@ -36,8 +36,8 @@ output * bg $wallpaperPath fill
 #output DP-1 pos 1920 0
 # Arbeit Andrea
 # output eDP-1 pos 0 0 
-# output DP-4 pos 1920 0
-# output DP-7 pos 3840 0
+# output DP-3 pos 1920 0
+# output DP-5 pos 3840 0
 
 # Buero Julia
 output DP-4 pos 0 0 
@@ -55,11 +55,11 @@ output eDP-1 pos 3840 0
 # Example configuration:
 #
 # exec swayidle -w \
-         timeout 300 'swaylock -f -c 000000' \
-         timeout 310 'swaymsg "output * dpms off"' \
-				 timeout 626 'systemctl suspend ' \
-				 resume 'swaymsg "output * dpms on"' \
-         before-sleep 'swaylock -f -c 000000'
+#          timeout 300 'swaylock -f -c 000000' \
+#          timeout 310 'swaymsg "output * dpms off"' \
+# 	 timeout 626 'systemctl suspend ' \
+#               resume 'swaymsg "output * dpms on"' \
+#          before-sleep 'swaylock -f -c 000000'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 10 seconds, and turn your screens back on when
