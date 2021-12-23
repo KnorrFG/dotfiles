@@ -1,6 +1,6 @@
 #! /usr/bin/bash
 
-set -eux
+set -eu
 
 apt_install=0
 pyenv_install=0
@@ -21,6 +21,7 @@ print_help() {
 cat << EOF
 
 Installs my typical setup. Supported Arguments:
+     -x: set -x. Usefull for debugging
      --base: everything I use in my free time
      --work: base + software I only need for work
      --apt: install all apt-depending programs
@@ -88,7 +89,7 @@ set-base-install () {
     bundled_install=1
 }
 
-if [ $# = 0 ]; then
+if [[ $# = 0 || ($# = 1 && $1 = -x)]]; then
     print_help
     exit 0
 fi
@@ -97,6 +98,10 @@ while [[ $# -gt 0 ]]; do
     val="$1"
 
 	case $val in
+        -x)
+            set -x
+            shift
+            ;;
 		--apt)
 			apt_install=1
 			shift 
@@ -242,24 +247,28 @@ if [[ $nvim_install = 1 ]]; then
 
     dl_link=$(get_github_latest_release_link https://github.com/neovim/neovim \
         'nvim.appimage')
-		if [[ "$dl_link" = "" ]]; then
-			echo "couldn't get nvim dl link"
-		else
-			echo downloading nvim from $dl_link
-			path=~/.local/bin/nvim
-			wget -O $path $dl_link
-			chmod u+x $path
-		fi
+    if [[ "$dl_link" = "" ]]; then
+        echo "couldn't get nvim dl link"
+    else
+        echo downloading nvim from $dl_link
+        path=~/.local/bin/nvim
+        wget -O $path $dl_link
+        chmod u+x $path
+    fi
 fi
 
 if [[ $duf_install = 1 ]]; then
 	echo Installing duf ...
 	dl_link=$(get_github_latest_release_link https://github.com/muesli/duf \
 		'duf_{tag[1:]}_linux_amd64.deb')
-	echo downloading duf from $dl_link
-	deb_path=~/Downloads/${dl_link##*/}
-	wget -O $deb_path $dl_link
-	sudo apt install -y $deb_path
+    if [[ "$dl_link" = "" ]]; then
+        echo "couldn't get duf dl link"
+    else
+        echo downloading duf from $dl_link
+        deb_path=~/Downloads/${dl_link##*/}
+        wget -O $deb_path $dl_link
+        sudo apt install -y $deb_path
+    fi
 fi
 
 if [[ $fvpn_install = 1 ]]; then
@@ -282,8 +291,8 @@ if [[ $rust_install = 1 ]]; then
 fi
 
 if [[ $bundled_install = 1 ]]; then
-cat << EOF
-Everything finished successfully.
-Remember to install a python version
+    cat << EOF
+    Everything finished successfully.
+    Remember to install a python version
 EOF
 fi
