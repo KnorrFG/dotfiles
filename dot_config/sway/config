@@ -20,29 +20,15 @@ set $term alacritty
 # on the original workspace that the command was run on.
 # set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
- set $menu 'rofi -modi run, drun, window  -show drun'
+set $menu 'rofi -modi run, drun, window  -show drun'
 
 focus_follows_mouse no
 workspace_auto_back_and_forth yes
 
 ### Output configuration
 #
-set $wallpaperPath /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png 
-# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg $wallpaperPath fill
 
-# Display Configs:
-#output eDP-1 pos 0 0 
-#output DP-1 pos 1920 0
-# Arbeit Andrea
-# output eDP-1 pos 0 0 
-# output DP-3 pos 1920 0
-# output DP-5 pos 3840 0
-
-# Buero Julia
-output DP-4 pos 0 0 
-output DP-3 pos 1920 0
-output eDP-1 pos 3840 0
+include $HOME/.swaylocal
 
 # Example configuration:
 #
