@@ -186,31 +186,6 @@ w (){
 	$1.exe "${@:2}"
 }
 {{- end }}
-{{- if eq .chezmoi.hostname "LAPTOP-FELIX" }}
-
-#===============================================================================
-# thinkpad specific configuration (WSL)
-#===============================================================================
-export DISPLAY=$(/sbin/ip route | awk '/default/ { print $3  }')":0"
-
-if ! timeout 1s xset q > /dev/null; then
-	unset DISPLAY
-fi;
-
-export WH=/mnt/c/Users/knorr
-
-alias e.="explorer.exe ."
-
-export PATH=/mnt/c/user/knorr/bin:$PATH
-export PATH=$WH/bin:$PATH
-export PATH=$HOME/.cargo/bin:$PATH
-alias fd=fdfind
-
-w (){
-	$1.exe "${@:2}"
-}
-{{- end }}
-
 {{- if eq .chezmoi.hostname "TP-Felix" }}
 
 #===============================================================================
@@ -228,13 +203,9 @@ make-compile-commands(){
 	ln -s Debug/compile_commands.json .
 }
 
-zdo(){
-	zathura "$@" & disown
-}
-
 {{- end }}
 #===============================================================================
-# Aliases
+# Aliases & Vars
 #===============================================================================
 alias sai='sudo apt install -y'
 alias sar='sudo apt remove -y'
@@ -295,6 +266,10 @@ _fzf_compgen_dir() {
 mkcd() {
 	mkdir -p $@
 	cd ${@: -1}
+}
+
+zdo(){
+	zathura "$@" & disown
 }
 
 #===============================================================================
