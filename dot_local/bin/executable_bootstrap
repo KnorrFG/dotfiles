@@ -39,22 +39,21 @@ EOF
 }
 
 create-sway-exec-files() {
-sudo cat > /usr/bin/my-sway << EOF
-#! /usr/bin/sh
+echo -e "#! /usr/bin/sh
 
 export PATH=\$HOME/programs/fzf/bin:\$PATH
 exec sway
-EOF
+" | sudo tee /usr/bin/my-sway > /dev/null
 
 sudo chmod a+x /usr/bin/my-sway
 
-sudo cat > /usr/share/wayland-sessions/my-sway.desktop << EOF
-[Desktop Entry]
+echo -e "[Desktop Entry]
 Name=My Sway
 Comment=An i3-compatible Wayland compositor
 Exec=my-sway
 Type=Application
-EOF
+" | sudo tee /usr/share/wayland-sessions/my-sway.desktop > /dev/null
+
 }
 
 get_github_latest_release_link() {
@@ -180,7 +179,8 @@ if [[ $apt_install = 1 ]]; then
     echo Running apt install ...
     sudo apt install -y \
         ripgrep ranger curl fd-find apt-file gimp zathura git \
-        firefox thunderbird ncdu cifs-utils software-properties-common
+        firefox thunderbird ncdu cifs-utils software-properties-common direnv \
+        bat
 fi
 
 
@@ -229,8 +229,9 @@ fi
 if [[ $sway_install = 1 ]]; then
     echo Installing Sway and friends ...
 
+	sudo add-apt-repository ppa:aslatter/ppa
     sudo apt install sway sway-backgrounds swaybg swayidle swaylock alacritty \
-        rofi grim slurp wl-copy waybar
+        rofi grim slurp wl-clipboard waybar fonts-font-awesome
 
     create-sway-exec-files
 fi
