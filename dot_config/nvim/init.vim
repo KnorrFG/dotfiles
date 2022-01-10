@@ -107,8 +107,14 @@ colorscheme gruvbox
 "]]]
 " MD Functions [[[
 function! InsertImgFromCB(name)
-    execute "!xclip -sel clip -t image/png -o > " . 
-					\ "/home/felix/Nextcloud/mdn.d/assets/" . a:name
+    let save_path = "/home/felix/Nextcloud/mdn.d/assets/" . a:name
+
+    if $XDG_SESSION_TYPE == "wayland"
+        execute "!wl-paste > " . save_path
+    else
+        execute "!xclip -sel clip -t image/png -o > " . save_path
+    endif
+					\ 
     execute "norm a![](" . a:name . ")"
 endf
 command! -nargs=1 PasteImage call InsertImgFromCB(<f-args>)
