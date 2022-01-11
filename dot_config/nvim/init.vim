@@ -107,7 +107,13 @@ colorscheme gruvbox
 "]]]
 " MD Functions [[[
 function! InsertImgFromCB(name)
-    let save_path = "/home/felix/Nextcloud/mdn.d/assets/" . a:name
+    let host = substitute(system('hostname'), '\n\+$', '', '')
+    if host == "TP-Felix"
+        let save_path = "/home/felix/.mdn.d/assets/" . a:name
+    else
+        let save_path = "/home/felix/Nextcloud/mdn.d/assets/" . a:name
+    endif
+
 
     if $XDG_SESSION_TYPE == "wayland"
         execute "!wl-paste > " . save_path
