@@ -82,6 +82,7 @@ Plug 'Maxattax97/coc-ccls'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
+Plug 'rust-lang/rust.vim'
 call plug#end()
 " ]]]
 " Plugin Config [[[
@@ -100,6 +101,12 @@ let g:vimtex_fold_enabled = 1
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_view_forward_search_on_start = 0
 let g:vimtex_compiler_progname = 'nvr'
+"]]]
+"   Rust [[[
+let g:rust_conceal = 1
+let g:rust_fold = 1
+let g:rustfmt_autosave = 1
+let g:syntastic_rust_checkers = []
 "]]]
 "]]]
 " Color scheme [[[
@@ -148,10 +155,10 @@ endf
 augroup vimrc
 	autocmd!
 	au FileType vim setlocal foldmarker=[[[,]]] foldmethod=marker 
-	au filetype python,haskel,c,sh set
+	au filetype python,haskel,c,cpp,sh set
 		\ tabstop=4
 		\ softtabstop=4
-		\ shiftwidth=4
+		\ sw=4
 		\ expandtab
 		\ autoindent
 		\ fileformat=unix
