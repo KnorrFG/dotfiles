@@ -83,6 +83,7 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'rust-lang/rust.vim'
+Plug 'neovimhaskell/haskell-vim'
 call plug#end()
 " ]]]
 " Plugin Config [[[
@@ -155,7 +156,7 @@ endf
 augroup vimrc
 	autocmd!
 	au FileType vim setlocal foldmarker=[[[,]]] foldmethod=marker 
-	au filetype python,haskel,c,cpp,sh set
+	au filetype python,haskell,c,cpp,sh set
 		\ tabstop=4
 		\ softtabstop=4
 		\ sw=4
