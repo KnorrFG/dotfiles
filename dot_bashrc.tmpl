@@ -204,6 +204,8 @@ make-compile-commands(){
 	ln -s Debug/compile_commands.json .
 }
 
+[ -f "/home/felix/.ghcup/env" ] && source "/home/felix/.ghcup/env" # ghcup-env
+
 {{- end }}
 #===============================================================================
 # Aliases & Vars
