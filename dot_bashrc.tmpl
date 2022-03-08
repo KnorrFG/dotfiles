@@ -204,8 +204,6 @@ make-compile-commands(){
 	ln -s Debug/compile_commands.json .
 }
 
-[ -f "/home/felix/.ghcup/env" ] && source "/home/felix/.ghcup/env" # ghcup-env
-
 {{- end }}
 #===============================================================================
 # Aliases & Vars
@@ -287,4 +285,6 @@ eval "$(pyenv virtualenv-init -)"
 eval "$(direnv hook bash)"
 
 . "$HOME/.cargo/env"
+
+[ -f "/home/felix/.ghcup/env" ] && source "/home/felix/.ghcup/env" # ghcup-env
 
