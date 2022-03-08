@@ -213,7 +213,7 @@ vnoremap <Tab> zf
 "inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 "inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-imap jj <Esc>
+imap jk <Esc>
 imap <C-d> <DEL>
 
 "Plugin mappings
