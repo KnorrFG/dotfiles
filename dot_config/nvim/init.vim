@@ -152,11 +152,21 @@ function! COptions()
     nmap ,mr :make run<CR>
 endf
 " ]]]
+"
+function! HaskellOptions()
+    set tabstop=2
+    set softtabstop=2
+    set sw=2
+    set expandtab
+    set autoindent
+    set fileformat=unix
+endf
+"
 " Autocommands [[[
 augroup vimrc
 	autocmd!
 	au FileType vim setlocal foldmarker=[[[,]]] foldmethod=marker 
-	au filetype python,haskell,c,cpp,sh set
+	au filetype python,c,cpp,sh set
 		\ tabstop=4
 		\ softtabstop=4
 		\ sw=4
@@ -180,6 +190,7 @@ augroup vimrc
 	au filetype markdown call MarkdownOptions()
 	au filetype html,css EmmetInstall
     au filetype c call COptions()
+    au filetype haskell call HaskellOptions()
 
 	au VimEnter * RainbowParenthesesToggle
 	au Syntax * RainbowParenthesesLoadRound
